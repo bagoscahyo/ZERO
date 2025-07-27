@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZERO STORE Payment</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        :root {
+            --dana-blue: #00a0e3;
+            --dana-dark-blue: #0077b6;
+            --gopay-green: #00aa13;
+            --gopay-dark-green: #008611;
+            --zero-purple: #9c4dff;
+            --zero-pink: #ff6b9d;
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --border-dark: #333;
+            --text-light: #f1f1f1;
+            --text-muted: #aaa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: var(--card-dark);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            animation: fadeIn 0.8s ease;
+            border: 1px solid var(--border-dark);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(45deg, var(--zero-purple), var(--zero-pink));
+            color: var(--text-light);
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-dark);
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: var(--text-light);
+            opacity: 0.9;
+        }
+        
+        .logo {
+            width: 90px;
+            height: 90px;
+            background: var(--card-dark);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo span {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-light);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .payment-methods {
+            padding: 25px;
+        }
+        
+        .method {
+            background: #252525;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-dark);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .method:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            border-color: #444;
+        }
+        
+        .method::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+        
+        .dana::before {
+            background: linear-gradient(to bottom, var(--dana-blue), var(--dana-dark-blue));
+        }
+        
+        .gopay::before {
+            background: linear-gradient(to bottom, var(--gopay-green), var(--gopay-dark-green));
+        }
+        
+        .method-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .method-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .dana .method-icon {
+            background: linear-gradient(45deg, var(--dana-blue), var(--dana-dark-blue));
+            animation: pulseBlue 2s infinite;
+        }
+        
+        .gopay .method-icon {
+            background: linear-gradient(45deg, var(--gopay-green), var(--gopay-dark-green));
+            animation: pulseGreen 2s infinite;
+        }
+        
+        @keyframes pulseBlue {
+            0% { box-shadow: 0 0 0 0 rgba(0, 160, 227, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 160, 227, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 160, 227, 0); }
+        }
+        
+        @keyframes pulseGreen {
+            0% { box-shadow: 0 0 0 0 rgba(0, 170, 19, 0.7); }
+            70% { box-shadow: 0 0 0 12px rgba(0, 170, 19, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 170, 19, 0); }
+        }
+        
+        .method-icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        
+        .method-title {
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+        
+        .method-details {
+            padding-left: 70px;
+        }
+        
+        .detail-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-label {
+            font-size: 14px;
+            color: var(--text-muted);
+            width: 110px;
+            flex-shrink: 0;
+        }
+        
+        .detail-value {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-light);
+            background: #333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            flex-grow: 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .detail-value:hover {
+            background: #444;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .detail-value.copied::after {
+            content: '✓ Tersalin!';
+            position: absolute;
+            right: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            animation: fadeOut 1.5s forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: #1a1a1a;
+            border-top: 1px solid var(--border-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <span>ZERO</span>
+            </div>
+            <h1>ZERO STORE Payment</h1>
+            <p>Klik nomor untuk menyalin otomatis</p>
+        </div>
+        
+        <div class="payment-methods">
+            <div class="method dana">
+                <div class="method-header">
+                    <div class="method-icon">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA">
+                    </div>
+                    <div class="method-title">DANA</div>
+                </div>
+                <div class="method-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Nomor DANA</div>
+                        <div class="detail-value" onclick="copyToClipboard(this, '085606123943')">
+                            085606123943
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Pemilik</div>
+                        <div class="detail-value">ZERO STORE</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="method gopay">
+                <div class="method-header">
+                    <div class="method-icon">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gopay_logo.svg" alt="GOPAY">
+                    </div>
+                    <div class="method-title">GOPAY</div>
+                </div>
+                <div class="method-details">
+                    <div class="detail-item">
+                        <div class="detail-label">Nomor GOPAY</div>
+                        <div class="detail-value" onclick="copyToClipboard(this, '085169830215')">
+                            085169830215
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Pemilik</div>
+                        <div class="detail-value">ZERO STORE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            &copy; 2023 ZERO STORE. Segera konfirmasi setelah transfer.
+        </div>
+    </div>
+    
+    <script>
+        function copyToClipboard(element, text) {
+            navigator.clipboard.writeText(text).then(function() {
+                element.classList.add('copied');
+                setTimeout(function() {
+                    element.classList.remove('copied');
+                }, 1500);
+            }, function() {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                element.classList.add('copied');
+                setTimeout(function() {
+                    element.classList.remove('copied');
+                }, 1500);
+            });
+        }
+    </script>
+</body>
+</html>
